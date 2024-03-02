@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+
+
+  app:
+    build: .
+    command: python main.py
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    links:
+      - postgres
