@@ -1,7 +1,22 @@
 import os
+from dotenv import load_dotenv
 
-DATABASE_HOST = os.environ.get("DATABASE_HOST", "localhost")
-DATABASE_PORT = int(os.environ.get("DATABASE_PORT", 5432))
-DATABASE_NAME = os.environ.get("DATABASE_NAME", "mydatabase")
-DATABASE_USER = os.environ.get("DATABASE_USER", "postgres")
-DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD", "mysecretpassword")
+load_dotenv()
+
+class DatabaseConfig:
+    def __init__(self, host, port, name, user, password):
+        self.host = host
+        self.port = port
+        self.name = name
+        self.user = user
+        self.password = password
+
+    @classmethod
+    def from_env(cls):
+        return cls(
+            host=os.environ.get("DATABASE_HOST"),
+            port=os.environ.get("DATABASE_PORT"),
+            name=os.environ.get("DATABASE_NAME"),
+            user=os.environ.get("DATABASE_USER"),
+            password=os.environ.get("DATABASE_PASSWORD"),
+        )
